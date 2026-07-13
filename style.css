@@ -1,0 +1,6 @@
+:root { font-family: system-ui, sans-serif; color: #1e293b; background: #f8fafc; }
+body { margin: 0; }
+main { box-sizing: border-box; width: min(680px, 100%); margin: 8vh auto; padding: 32px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 8px 30px #0f172a12; }
+h1 { margin: 0 0 8px; font-size: 1.8rem; }.intro { color: #475569; line-height: 1.5; }
+form { display: grid; gap: 12px; margin-top: 28px; }.drop-zone { display: grid; place-items: center; min-height: 130px; text-align: center; border: 2px dashed #94a3b8; border-radius: 10px; color: #475569; cursor: pointer; }.drop-zone.drag { border-color: #2563eb; background: #eff6ff; }.drop-zone input { display: none; }
+input[type=text] { box-sizing: border-box; padding: 12px; border: 1px solid #94a3b8; border-radius: 7px; font: inherit; }button { padding: 12px 16px; color: white; background: #2563eb; border: 0; border-radius: 7px; font: inherit; font-weight: 700; cursor: pointer; }button:disabled { opacity: .55; cursor: wait; }.hint, #status, .project-link { color: #64748b; font-size: .92rem; }#status { min-height: 1.4em; }.project-link { margin: 20px 0 0; }.project-link a { display: inline-flex; color: #1f2937; }.project-link svg { width: 24px; height: 24px; fill: currentColor; }.project-link a:hover { color: #2563eb; }
