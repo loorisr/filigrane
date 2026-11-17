@@ -372,7 +372,7 @@ form.addEventListener('submit', async event => {
           preview.append(thumbnail(image, `${file.name} — page ${++filePage}`));
           release(image);
           progress.value = Math.min(progress.max, progress.value + 1);
-          await new Promise(requestAnimationFrame); // keep the page responsive
+          await new Promise(resolve => setTimeout(resolve, 0)); // keep the page responsive (rAF would pause in background tabs)
         }
       } catch (error) {
         console.error(error);
