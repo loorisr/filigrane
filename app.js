@@ -194,7 +194,9 @@ async function* pdfPages(file) {
       const page = await pdf.getPage(number);
       const base = page.getViewport({ scale: 1 });
       const ratio = base.height / base.width;
-      const scale = (ratio < A4_RATIO ? base.width : base.height / A4_RATIO) < MAX_PAGE_WIDTH ? 2 : (MAX_PAGE_WIDTH / base.width) * 2;
+      const fittedWidth = ratio < A4_RATIO ? base.width : base.height / A4_RATIO;
+      // Render pages directly at the 1240 px width fitImageToPage targets rather than enlarging a bitmap.
+      const scale = fittedWidth < MAX_PAGE_WIDTH ? MAX_PAGE_WIDTH / fittedWidth : (MAX_PAGE_WIDTH / base.width) * 2;
       const viewport = page.getViewport({ scale });
       const result = canvas(viewport.width, viewport.height);
       const ctx = result.getContext('2d');
@@ -221,7 +223,11 @@ function fitImageToPage(source) {
   const ratio = source.height / source.width;
   const width = ratio < A4_RATIO ? source.width : source.height / A4_RATIO;
   const height = ratio < A4_RATIO ? source.width * A4_RATIO : source.height;
-  const scale = width < MAX_PAGE_WIDTH ? 1 : MAX_PAGE_WIDTH / source.width; // as in the Java code
+  // Large sources are reduced as in the Java code. Small ones (screenshots, small
+  // PDF pages) are enlarged: the watermark font and blur are sized for a
+  // 1240 px page, so a 400 px page would get a 9 px font under a ~20 px blur
+  // and be stretched to ~50 dpi in the PDF.
+  const scale = width < MAX_PAGE_WIDTH ? MAX_PAGE_WIDTH / width : MAX_PAGE_WIDTH / source.width;
   const result = canvas(scale * width, scale * height);
   const ctx = result.getContext('2d');
   ctx.fillStyle = 'white'; ctx.fillRect(0, 0, result.width, result.height);
